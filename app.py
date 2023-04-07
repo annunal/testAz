@@ -4,21 +4,20 @@
 #git push -u origin main
 
 import dash
-#import dash_core_components as dcc
+import dash_core_components as dcc
 import dash_bootstrap_components as dbc  # pip install dash-bootstrap-components
-#import dash_html_components as html
-from dash import html,dcc
+import dash_html_components as html
 from dash.dependencies import Input, Output
 import plotly.express as px
 
 import pandas as pd
 
-df = pd.read_csv('assets/gapminderDataFiveYear.csv')
+df = pd.read_csv('assets/data/gapminderDataFiveYear.csv')
 
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.DARKLY])
-appserver = app.server
+dash_app = dash.Dash(__name__, external_stylesheets=[dbc.themes.DARKLY])
+app = dash_app.server
 
-app.layout = html.Div([
+dash_app.layout = html.Div([
     dcc.Graph(id='graph-with-slider'),
     dcc.Slider(
         id='year-slider',
@@ -30,7 +29,8 @@ app.layout = html.Div([
     )
 ])
 
-@app.callback(
+
+@dash_app.callback(
     Output('graph-with-slider', 'figure'),
     Input('year-slider', 'value'))
 
@@ -47,4 +47,4 @@ def update_figure(selected_year):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    dash_app.run_server(debug=True)
